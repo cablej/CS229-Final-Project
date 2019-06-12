@@ -15,8 +15,8 @@ import warnings
 if __name__ == "__main__":
 	nb = False
 	lr = False
-	svm_ = False
-	rf = False
+	svm_ = True
+	rf = True
 else:	
 	nb = False
 	lr = False
@@ -37,31 +37,31 @@ def train_model(classifier, feature_vector_train, label, feature_vector_test, is
 	if is_neural_net:
 		test_preds = test_preds.argmax(axis=-1)
 
-	# if should_do_common:
-	   #  feature_names = count_vect.get_feature_names()
-	   #  diff = classifier.feature_log_prob_[1,:] - np.max(classifier.feature_log_prob_[0:])
+	if should_do_common:
+	    feature_names = count_vect.get_feature_names()
+	    diff = classifier.feature_log_prob_[1,:] - np.max(classifier.feature_log_prob_[0:])
 
-	   #  name_diff = {}
-	   #  for i in range(len(feature_names)):
-	   #     name_diff[feature_names[i]] = diff[i]
+	    name_diff = {}
+	    for i in range(len(feature_names)):
+	       name_diff[feature_names[i]] = diff[i]
 
-	   #     names_diff_sorted = sorted(name_diff.items(), key = op.itemgetter(1), reverse = True)
-	   #  c = 0
-	   #  i = 0
-	   #  while c < 50:
-	   #     if names_diff_sorted[i][0] in stop_words or len(names_diff_sorted[i][0]) <= 2:
-	   #     	 i += 1
-	   #     	 continue
-	   #     print(names_diff_sorted[i])
-	   #     c += 1
-	   #     i += 1
+	       names_diff_sorted = sorted(name_diff.items(), key = op.itemgetter(1), reverse = True)
+	    c = 0
+	    i = 0
+	    while c < 50:
+	       if names_diff_sorted[i][0] in stop_words or len(names_diff_sorted[i][0]) <= 2:
+	       	 i += 1
+	       	 continue
+	       print(names_diff_sorted[i])
+	       c += 1
+	       i += 1
 	
 	train_acc = metrics.accuracy_score(train_preds, train_y)
 	test_acc = metrics.accuracy_score(test_preds, test_y)
 	cm = metrics.confusion_matrix(test_y, test_preds)
 	print('Train Accuracy: ', train_acc)
 	print('Test Accuracy: ', test_acc)
-	# print('Confusion matrix: ', cm)
+	print('Confusion matrix: ', cm)
 	return (test_acc, cm)
 
 # load positive labels
@@ -179,7 +179,6 @@ if lr:
 	print("LR, Binary Count Vectors: ")
 	accuracy = train_model(linear_model.LogisticRegression(), binary_xtrain_count, train_y, binary_xtest_count)
 
-
 	# Linear Classifier on Count Vectors
 	print("LR, Count Vectors: ")
 	accuracy = train_model(linear_model.LogisticRegression(), xtrain_count, train_y, xtest_count)
@@ -211,25 +210,25 @@ if svm_:
 	# print(svm_tune(xtrain_tfidf, train_y))
 	# print(svm_tune(xtrain_tfidf_ngram, train_y))
 
-	# # SVM on Bin Count Vectors
-	# print("SVM, Binary Count Vectors: ")
-	# accuracy = train_model(svm.SVC(kernel='rbf', C=10, gamma=0.1), binary_xtrain_count, train_y, binary_xtest_count)
+	# SVM on Bin Count Vectors
+	print("SVM, Binary Count Vectors: ")
+	accuracy = train_model(svm.SVC(kernel='rbf', C=10, gamma=0.1), binary_xtrain_count, train_y, binary_xtest_count)
 
-	# # SVM on Count Vectors
-	# print("SVM, Count Vectors: ")
-	# accuracy = train_model(svm.SVC(kernel='rbf', C=10, gamma=0.1), xtrain_count, train_y, xtest_count)
+	# SVM on Count Vectors
+	print("SVM, Count Vectors: ")
+	accuracy = train_model(svm.SVC(kernel='rbf', C=10, gamma=0.1), xtrain_count, train_y, xtest_count)
 
-	# # SVM on Word Level TF IDF Vectors
-	# print("SVM, WordLevel TF-IDF: ")
-	# accuracy = train_model(svm.SVC(kernel='rbf', C=10, gamma=0.1), xtrain_tfidf, train_y, xtest_tfidf)
+	# SVM on Word Level TF IDF Vectors
+	print("SVM, WordLevel TF-IDF: ")
+	accuracy = train_model(svm.SVC(kernel='rbf', C=10, gamma=0.1), xtrain_tfidf, train_y, xtest_tfidf)
 
-	# # SVM on Ngram Level TF IDF Vectors
-	# print("SVM, N-Gram Vectors: ")
-	# accuracy = train_model(svm.SVC(kernel='rbf', C=10, gamma=0.1), xtrain_tfidf_ngram, train_y, xtest_tfidf_ngram)
+	# SVM on Ngram Level TF IDF Vectors
+	print("SVM, N-Gram Vectors: ")
+	accuracy = train_model(svm.SVC(kernel='rbf', C=10, gamma=0.1), xtrain_tfidf_ngram, train_y, xtest_tfidf_ngram)
 
 	# SVM on Character Level TF IDF Vectors
 	print("SVM, CharLevel Vectors: ")
-	accuracy = train_model(svm.SVC(kernel=linear), xtrain_tfidf_ngram_chars, train_y, xtest_tfidf_ngram_chars)
+	accuracy = train_model(svm.SVC(kernel='rbf', C=10, gamma=0.1), xtrain_tfidf_ngram_chars, train_y, xtest_tfidf_ngram_chars)
 
 if rf:
 

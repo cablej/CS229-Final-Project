@@ -14,13 +14,13 @@
 {% if pred == 0 %}
 <h2>This tweet does not appear to be a Russian troll.</h2>
 <h2>Troll likelihood: {{ prob[1] }}</h2>
-<!-- <img src="https://cdn.countryflags.com/thumbs/united-states-of-america/flag-400.png"> -->
+<img src="https://cdn.countryflags.com/thumbs/united-states-of-america/flag-400.png">
 {% endif %}
 
 {% if pred == 1 %}
 <h2>This tweet does appear to be a Russian troll.</h2>
 <h2>Troll likelihood: {{ prob[1] }}</h2>
-<!-- <img src="https://cdn.countryflags.com/thumbs/russia/flag-400.png"> -->
+<img src="https://cdn.countryflags.com/thumbs/russia/flag-400.png">
 {% endif %}
 
 
