@@ -1,0 +1,30 @@
+<title>Tweet Livestream Classifier</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+<div class="block1">
+<h1>Tweet Stream</h1>
+<div id="list">
+
+</div>
+
+<script>
+
+function getTweet() {
+    $.getJSON("livedata", (data) => {
+    	$( "<div/>", {
+    	"style": "background-color:" + (data.prediction == 1 ? "red" : "green"),
+	    html: `<h2>"${data.text}"</h2><h3>- @${data.author}</h3><h3>Likelihood: ${data.probability}</h3>`
+	  }).prependTo("#list")
+    })
+}
+
+setInterval(getTweet, 1000);
+
+</script>
+
+<style>
+body{
+    text-align: center;
+    background: grey;
+}
+</style>

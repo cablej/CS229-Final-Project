@@ -12,3 +12,5 @@ data/29.json
 data/tweet-1000-ids.txt
 
 data/tweets-2016-2-100000-full.txt
+
+secrets.py
